@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Suraj Mishra | Portfolio</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background: #0a0b0f;
+        color: #e4e6ea;
+        line-height: 1.6;
+        scroll-behavior: smooth;
+      }
+
+      /* Navigation */
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(10, 11, 15, 0.95);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 2rem;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #64ffda;
+        text-decoration: none;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+
+      .nav-links a {
+        color: #e4e6ea;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+        position: relative;
+      }
+
+      .nav-links a:hover {
+        color: #64ffda;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #64ffda;
+        transition: width 0.3s ease;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background: linear-gradient(135deg, #0a0b0f 0%, #1a1d29 100%);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23ffffff" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+        opacity: 0.3;
+      }
+
+      .hero-content {
+        max-width: 800px;
+        z-index: 2;
+        position: relative;
+      }
+
+      .hero h1 {
+        font-size: 4rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #64ffda, #a78bfa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero .subtitle {
+        font-size: 1.5rem;
+        color: #8892b0;
+        margin-bottom: 2rem;
+        font-weight: 400;
+      }
+
+      .hero .description {
+        font-size: 1.1rem;
+        color: #a8b2d1;
+        margin-bottom: 3rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .cta-button {
+        display: inline-block;
+        padding: 1rem 2rem;
+        background: transparent;
+        border: 2px solid #64ffda;
+        color: #64ffda;
+        text-decoration: none;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cta-button:hover {
+        background: rgba(100, 255, 218, 0.1);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(100, 255, 218, 0.3);
+      }
+
+      /* Sections */
+      .section {
+        padding: 5rem 0;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 3rem;
+        text-align: center;
+        color: #e4e6ea;
+        position: relative;
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background: linear-gradient(135deg, #64ffda, #a78bfa);
+        border-radius: 2px;
+      }
+
+      /* About Section */
+      .about-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+
+      .about-text {
+        font-size: 1.1rem;
+        color: #a8b2d1;
+        line-height: 1.8;
+      }
+
+      .about-text p {
+        margin-bottom: 1.5rem;
+      }
+
+      .skills {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .skill-item {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: transform 0.3s ease, border-color 0.3s ease;
+      }
+
+      .skill-item:hover {
+        transform: translateY(-5px);
+        border-color: #64ffda;
+      }
+
+      .about-image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .profile-placeholder {
+        width: 300px;
+        height: 300px;
+        background: linear-gradient(135deg, #64ffda, #a78bfa);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        color: #0a0b0f;
+        font-weight: 700;
+      }
+
+      /* Projects Section */
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+      }
+
+      .project-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: transform 0.3s ease, border-color 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .project-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(135deg, #64ffda, #a78bfa);
+      }
+
+      .project-card:hover {
+        transform: translateY(-10px);
+        border-color: #64ffda;
+      }
+
+      .project-card h3 {
+        color: #e4e6ea;
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+        font-weight: 600;
+      }
+
+      .project-card p {
+        color: #a8b2d1;
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+      }
+
+      .project-tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .tech-tag {
+        background: rgba(100, 255, 218, 0.1);
+        color: #64ffda;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        border: 1px solid rgba(100, 255, 218, 0.3);
+      }
+
+      .project-links {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .project-link {
+        color: #64ffda;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+
+      .project-link:hover {
+        color: #a78bfa;
+      }
+
+      /* Contact Section */
+      .contact {
+        background: rgba(255, 255, 255, 0.03);
+        padding: 5rem 0;
+        text-align: center;
+      }
+
+      .contact-content {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .contact p {
+        font-size: 1.1rem;
+        color: #a8b2d1;
+        margin-bottom: 2rem;
+        line-height: 1.8;
+      }
+
+      .contact-links {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      .contact-link {
+        color: #64ffda;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.75rem 1.5rem;
+        border: 1px solid #64ffda;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .contact-link:hover {
+        background: rgba(100, 255, 218, 0.1);
+        transform: translateY(-2px);
+      }
+
+      /* Footer */
+      footer {
+        background: #0a0b0f;
+        text-align: center;
+        padding: 2rem 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      footer p {
+        color: #8892b0;
+        font-size: 0.9rem;
+      }
+
+      /* Mobile Responsive */
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .hero .subtitle {
+          font-size: 1.2rem;
+        }
+
+        .about-content {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+
+        .profile-placeholder {
+          width: 200px;
+          height: 200px;
+          font-size: 3rem;
+        }
+
+        .projects-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .contact-links {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .section {
+          padding-left: 1rem;
+          padding-right: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav>
+      <div class="nav-container">
+        <a href="#" class="logo">SM</a>
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Suraj Mishra</h1>
+        <p class="subtitle">Full-Stack Developer & Problem Solver</p>
+        <p class="description">
+          I craft digital experiences with clean code and thoughtful design.
+          Passionate about building scalable applications that make a
+          difference.
+        </p>
+        <a href="#contact" class="cta-button">Get In Touch</a>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+      <h2 class="section-title">About Me</h2>
+      <div class="about-content">
+        <div class="about-text">
+          <p>
+            Hello! I'm Suraj, a passionate full-stack developer with a love for
+            creating efficient, scalable, and user-friendly applications. My
+            journey in tech started with curiosity and has evolved into a career
+            focused on solving complex problems through code.
+          </p>
+          <p>
+            I enjoy working with modern technologies and am always eager to
+            learn new tools and frameworks. When I'm not coding, you can find me
+            exploring new technologies, contributing to open-source projects, or
+            sharing knowledge with the developer community.
+          </p>
+          <div class="skills">
+            <div class="skill-item">JavaScript</div>
+            <div class="skill-item">React</div>
+            <div class="skill-item">Node.js</div>
+            <div class="skill-item">Python</div>
+            <div class="skill-item">MongoDB</div>
+            <div class="skill-item">PostgreSQL</div>
+          </div>
+        </div>
+        <div class="about-image">
+          <div class="profile-placeholder">SM</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+      <h2 class="section-title">Featured Projects</h2>
+      <div class="projects-grid">
+        <div class="project-card">
+          <h3>E-Commerce Platform</h3>
+          <p>
+            A full-featured e-commerce platform with user authentication,
+            payment processing, and admin dashboard. Built with modern
+            technologies for optimal performance.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">Node.js</span>
+            <span class="tech-tag">MongoDB</span>
+            <span class="tech-tag">Stripe</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link">Live Demo</a>
+            <a href="#" class="project-link">Source Code</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <h3>Task Management App</h3>
+          <p>
+            A collaborative task management application with real-time updates,
+            drag-and-drop functionality, and team collaboration features.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">Vue.js</span>
+            <span class="tech-tag">Express</span>
+            <span class="tech-tag">Socket.io</span>
+            <span class="tech-tag">PostgreSQL</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link">Live Demo</a>
+            <a href="#" class="project-link">Source Code</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <h3>Weather Analytics Dashboard</h3>
+          <p>
+            An interactive dashboard displaying weather data with beautiful
+            visualizations, forecasts, and historical data analysis.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">Django</span>
+            <span class="tech-tag">D3.js</span>
+            <span class="tech-tag">API Integration</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link">Live Demo</a>
+            <a href="#" class="project-link">Source Code</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+      <div class="section">
+        <h2 class="section-title">Let's Work Together</h2>
+        <div class="contact-content">
+          <p>
+            I'm always interested in new opportunities and exciting projects.
+            Whether you have a question or just want to say hi, feel free to
+            reach out!
+          </p>
+          <div class="contact-links">
+            <a href="mailto:suraj@example.com" class="contact-link">Email Me</a>
+            <a href="#" class="contact-link">LinkedIn</a>
+            <a href="#" class="contact-link">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2025 Suraj Mishra. Built with passion and precision.</p>
+    </footer>
+  </body>
+</html>
