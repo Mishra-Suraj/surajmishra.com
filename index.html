@@ -18,15 +18,8 @@
       body {
         font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
           sans-serif;
-        background: linear-gradient(
-          135deg,
-          #0a0b0f 0%,
-          #1a1d29 25%,
-          #0f1419 50%,
-          #181a23 75%,
-          #0a0b0f 100%
-        );
-        background-attachment: fixed;
+        background: #0a0b0f;
+        min-height: 100vh;
         color: #e4e6ea;
         line-height: 1.6;
         scroll-behavior: smooth;
@@ -51,37 +44,9 @@
         --spacing-xl: 5rem;
       }
 
-      /* Global glassmorphism backdrop pattern */
+      /* Remove global backdrop pattern */
       body::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: radial-gradient(
-            circle at 20% 20%,
-            rgba(100, 255, 218, 0.1) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 80% 40%,
-            rgba(167, 139, 250, 0.08) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 40% 80%,
-            rgba(100, 255, 218, 0.06) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 90% 90%,
-            rgba(167, 139, 250, 0.1) 0%,
-            transparent 50%
-          );
-        pointer-events: none;
-        z-index: -1;
-        animation: backgroundFloat 20s ease-in-out infinite;
+        display: none;
       }
 
       @keyframes backgroundFloat {
@@ -208,49 +173,14 @@
         align-items: center;
         justify-content: center;
         text-align: center;
-        background: linear-gradient(
-          135deg,
-          rgba(10, 11, 15, 0.8) 0%,
-          rgba(26, 29, 41, 0.6) 30%,
-          rgba(15, 20, 25, 0.8) 70%,
-          rgba(24, 26, 35, 0.6) 100%
-        );
+        background: transparent;
         position: relative;
         overflow: hidden;
         isolation: isolate;
-        backdrop-filter: blur(2px);
       }
 
       .hero::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: radial-gradient(
-            circle at 30% 30%,
-            rgba(100, 255, 218, 0.15) 0%,
-            transparent 60%
-          ),
-          radial-gradient(
-            circle at 70% 70%,
-            rgba(167, 139, 250, 0.12) 0%,
-            transparent 60%
-          ),
-          radial-gradient(
-            circle at 50% 20%,
-            rgba(100, 255, 218, 0.08) 0%,
-            transparent 40%
-          ),
-          radial-gradient(
-            circle at 20% 80%,
-            rgba(167, 139, 250, 0.1) 0%,
-            transparent 50%
-          );
-        opacity: 0.8;
-        animation: heroGlassShift 15s ease-in-out infinite alternate;
-        z-index: 1;
+        display: none;
       }
 
       .hero::after {
@@ -576,17 +506,13 @@
         padding-right: 10vw;
         position: relative;
         isolation: isolate;
-        background: rgba(255, 255, 255, 0.02);
-        backdrop-filter: blur(15px) saturate(180%);
+        background: transparent;
         border-radius: 0;
         border: none;
-        /* border-top: 1px solid var(--glass-border); */
-        /* border-bottom: 1px solid var(--glass-border); */
         margin-bottom: 0;
       }
 
       .section-content {
-        max-width: 1200px;
         margin: 0 auto;
         padding-left: var(--spacing-md);
         padding-right: var(--spacing-md);
@@ -1097,41 +1023,20 @@
 
       /* Contact Section */
       .contact {
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.02) 0%,
-          rgba(100, 255, 218, 0.04) 50%,
-          rgba(167, 139, 250, 0.03) 100%
-        );
-        backdrop-filter: blur(20px) saturate(180%);
+        background: transparent;
         padding: var(--spacing-xl) 0;
         text-align: center;
         position: relative;
         width: 100%;
         margin: 0;
+        padding-left: 10vw;
+        padding-right: 10vw;
         border-radius: 0;
         border: none;
       }
 
       .contact::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: radial-gradient(
-            circle at 30% 30%,
-            rgba(100, 255, 218, 0.08) 0%,
-            transparent 70%
-          ),
-          radial-gradient(
-            circle at 70% 70%,
-            rgba(167, 139, 250, 0.06) 0%,
-            transparent 70%
-          );
-        border-radius: 0;
-        animation: contactGlow 12s ease-in-out infinite;
+        display: none;
       }
 
       @keyframes contactGlow {
@@ -1147,10 +1052,12 @@
       }
 
       .contact-content {
-        max-width: 700px;
+        max-width: 1200px;
         margin: 0 auto;
         position: relative;
         z-index: 2;
+        padding-left: var(--spacing-md);
+        padding-right: var(--spacing-md);
       }
 
       .contact p {
