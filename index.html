@@ -156,7 +156,9 @@
         color: var(--text-primary);
         text-decoration: none;
         font-weight: 500;
-        transition: all 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+          backdrop-filter 0.2s ease, box-shadow 0.3s ease,
+          border-color 0.2s ease, text-shadow 0.3s ease;
         position: relative;
         padding: 0.5rem 1rem;
         border-radius: 12px;
@@ -315,6 +317,60 @@
           inset 0 1px 0 rgba(255, 255, 255, 0.1);
       }
 
+      #glass3d {
+        --filter-glass3d: blur(32px) brightness(0.85) saturate(2.5);
+        --color-glass3d: hsl(189 80% 10% / 0.2);
+        --noise-glass3d: url("https://www.transparenttextures.com/patterns/egg-shell.png");
+
+        position: relative;
+        z-index: 4;
+        box-shadow: 0 0 0.75px hsl(205 20% 10% / 0.2),
+          0.7px 0.8px 1.2px -0.4px hsl(205 20% 10% / 0.1),
+          1.3px 1.5px 2.2px -0.8px hsl(205 20% 10% / 0.1),
+          2.3px 2.6px 3.9px -1.2px hsl(205 20% 10% / 0.1),
+          3.9px 4.4px 6.6px -1.7px hsl(205 20% 10% / 0.1),
+          6.5px 7.2px 10.9px -2.1px hsl(205 20% 10% / 0.1),
+          8px 9px 14px -2.5px hsl(205 20% 10% / 0.2);
+      }
+
+      #glass3d::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        border-radius: inherit;
+        overflow: hidden;
+        z-index: 3;
+
+        -webkit-backdrop-filter: var(--filter-glass3d);
+        backdrop-filter: var(--filter-glass3d);
+        background-color: var(--color-glass3d);
+        background-image: var(--noise-glass3d);
+        background-size: 100px;
+        background-repeat: repeat;
+      }
+
+      #glass3d::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        border-radius: inherit;
+        overflow: hidden;
+        z-index: 5;
+
+        box-shadow: inset 2px 2px 1px -3px hsl(205 20% 90% / 0.8),
+          inset 4px 4px 2px -6px hsl(205 20% 90% / 0.3),
+          inset 1.5px 1.5px 1.5px -0.75px hsl(205 20% 90% / 0.15),
+          inset 1.5px 1.5px 0.25px hsl(205 20% 90% / 0.03),
+          inset 0 0 0.25px 0.5px hsl(205 20% 90% / 0.03);
+      }
+
+      #glass3d > * {
+        position: relative;
+        z-index: 6;
+      }
+
       .hero h1 {
         font-size: clamp(2.5rem, 8vw, 5rem);
         font-weight: 700;
@@ -425,7 +481,9 @@
         text-decoration: none;
         font-weight: 600;
         border-radius: 16px;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+          backdrop-filter 0.3s ease, box-shadow 0.4s ease,
+          border-color 0.3s ease, background-color 0.3s ease;
         position: relative;
         overflow: hidden;
         box-shadow: 0 8px 32px rgba(100, 255, 218, 0.2),
@@ -512,38 +570,30 @@
       /* Sections */
       .section {
         padding: var(--spacing-xl) 0;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding-left: var(--spacing-md);
-        padding-right: var(--spacing-md);
+        width: 100%;
+        margin: 0;
+        padding-left: 10vw;
+        padding-right: 10vw;
         position: relative;
         isolation: isolate;
         background: rgba(255, 255, 255, 0.02);
         backdrop-filter: blur(15px) saturate(180%);
-        border-radius: 32px;
-        border: 1px solid var(--glass-border);
-        margin-bottom: var(--spacing-lg);
-        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2),
-          0 8px 20px rgba(100, 255, 218, 0.05),
-          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        border-radius: 0;
+        border: none;
+        /* border-top: 1px solid var(--glass-border); */
+        /* border-bottom: 1px solid var(--glass-border); */
+        margin-bottom: 0;
       }
 
-      .section::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 50%;
-        width: 1px;
-        height: 100%;
-        background: linear-gradient(
-          180deg,
-          transparent,
-          rgba(100, 255, 218, 0.3),
-          rgba(167, 139, 250, 0.2),
-          transparent
-        );
-        transform: translateX(-50%);
-        opacity: 0.6;
+      .section-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-left: var(--spacing-md);
+        padding-right: var(--spacing-md);
+        text-align: center;
+        padding-top: var(--spacing-xl);
+        padding-bottom: var(--spacing-xl);
+        border-radius: 24px;
       }
 
       .section-title {
@@ -603,12 +653,15 @@
         grid-template-columns: 1fr 1fr;
         gap: clamp(2rem, 6vw, 5rem);
         align-items: center;
+        border-radius: 24px;
+        padding: var(--spacing-lg);
       }
 
       .about-text {
         font-size: clamp(1rem, 2.5vw, 1.2rem);
         color: var(--text-secondary);
         line-height: 1.8;
+        text-align: left;
       }
 
       .about-text p {
@@ -629,7 +682,9 @@
         border-radius: 16px;
         text-align: center;
         border: 1px solid var(--glass-border);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        /* transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+          backdrop-filter 0.3s ease, box-shadow 0.4s ease,
+          border-color 0.3s ease; */
         font-size: clamp(0.85rem, 2vw, 1rem);
         font-weight: 500;
         position: relative;
@@ -651,20 +706,20 @@
           rgba(100, 255, 218, 0.1),
           transparent
         );
-        transition: left 0.6s ease;
+        /* transition: left 0.6s ease; */
       }
 
       .skill-item:hover::before {
         left: 100%;
       }
 
-      .skill-item:hover {
+      /* .skill-item:hover {
         transform: translateY(-8px) scale(1.05);
-        background: var(--bg-glass-light);
+        background: v ar(--bg-glass-light);
         border-color: var(--glass-border-light);
         box-shadow: 0 12px 32px rgba(100, 255, 218, 0.2),
           0 6px 16px rgba(0, 0, 0, 0.2), inset 0 2px 0 rgba(255, 255, 255, 0.15);
-      }
+      } */
 
       .about-image {
         display: flex;
@@ -675,11 +730,10 @@
       .profile-placeholder {
         width: clamp(200px, 25vw, 320px);
         height: clamp(200px, 25vw, 320px);
-        background: linear-gradient(
-          135deg,
-          rgba(100, 255, 218, 0.2),
-          rgba(167, 139, 250, 0.2)
-        );
+        background: url("Profile photo.jpeg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
         backdrop-filter: blur(20px) saturate(180%);
         border-radius: 50%;
         display: flex;
@@ -688,14 +742,18 @@
         font-size: clamp(2.5rem, 8vw, 4.5rem);
         color: var(--primary-cyan);
         font-weight: 700;
-        border: 2px solid var(--glass-border-light);
+        /* border: 2px solid var(--glass-border-light); */
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3),
           0 8px 30px rgba(100, 255, 218, 0.2),
           inset 0 2px 0 rgba(255, 255, 255, 0.1);
         animation: profileGlow 6s infinite alternate,
           profileFloat 8s ease-in-out infinite;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+          backdrop-filter 0.3s ease, box-shadow 0.5s ease,
+          border-color 0.3s ease;
         position: relative;
         overflow: hidden;
+        cursor: pointer;
       }
 
       .profile-placeholder::before {
@@ -729,6 +787,15 @@
         border-radius: 50%;
         animation: highlight 6s ease-in-out infinite;
       }
+
+      /* .profile-placeholder:hover {
+        transform: translateY(-10px) scale(1.05);
+        backdrop-filter: blur(25px) saturate(200%);
+        border-color: var(--primary-cyan);
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4),
+          0 15px 50px rgba(100, 255, 218, 0.4),
+          inset 0 3px 0 rgba(255, 255, 255, 0.2);
+      } */
 
       @keyframes profileGlow {
         0% {
@@ -800,7 +867,9 @@
         border-radius: 20px;
         padding: var(--spacing-md);
         border: 1px solid var(--glass-border);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+          backdrop-filter 0.3s ease, box-shadow 0.5s ease,
+          border-color 0.3s ease, background-color 0.3s ease;
         position: relative;
         overflow: hidden;
         animation: cardReveal 0.6s ease-out;
@@ -830,30 +899,56 @@
         content: "";
         position: absolute;
         top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.05),
-          transparent
-        );
-        transition: left 0.8s ease;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 20% 30%,
+            rgba(255, 255, 255, 0.08) 0%,
+            transparent 30%
+          ),
+          radial-gradient(
+            circle at 80% 70%,
+            rgba(255, 255, 255, 0.06) 0%,
+            transparent 25%
+          ),
+          radial-gradient(
+            circle at 40% 80%,
+            rgba(100, 255, 218, 0.03) 0%,
+            transparent 35%
+          ),
+          radial-gradient(
+            circle at 60% 20%,
+            rgba(167, 139, 250, 0.04) 0%,
+            transparent 30%
+          ),
+          linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.02) 0%,
+            transparent 30%,
+            rgba(255, 255, 255, 0.01) 70%,
+            transparent 100%
+          );
+        border-radius: 20px;
         pointer-events: none;
+        opacity: 0.7;
+        z-index: 1;
+        mix-blend-mode: overlay;
       }
 
       .project-card:hover::after {
-        left: 100%;
+        opacity: 1;
       }
 
       .project-card:hover {
         transform: translateY(-15px) scale(1.02);
         background: rgba(255, 255, 255, 0.06);
         border-color: var(--glass-border-light);
+        backdrop-filter: blur(25px) saturate(200%);
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3),
           0 10px 30px rgba(100, 255, 218, 0.15),
-          inset 0 2px 0 rgba(255, 255, 255, 0.15);
+          inset 0 2px 0 rgba(255, 255, 255, 0.15),
+          inset 0 0 30px rgba(255, 255, 255, 0.05);
       }
 
       @keyframes cardReveal {
@@ -872,6 +967,8 @@
         margin-bottom: var(--spacing-sm);
         font-size: clamp(1.1rem, 3vw, 1.4rem);
         font-weight: 600;
+        position: relative;
+        z-index: 2;
       }
 
       .project-card p {
@@ -879,6 +976,8 @@
         margin-bottom: var(--spacing-md);
         line-height: 1.6;
         font-size: clamp(0.9rem, 2vw, 1rem);
+        position: relative;
+        z-index: 2;
       }
 
       .project-tech {
@@ -886,6 +985,8 @@
         flex-wrap: wrap;
         gap: var(--spacing-xs);
         margin-bottom: var(--spacing-md);
+        position: relative;
+        z-index: 2;
       }
 
       .tech-tag {
@@ -896,7 +997,9 @@
         border-radius: 25px;
         font-size: clamp(0.75rem, 1.8vw, 0.9rem);
         border: 1px solid rgba(100, 255, 218, 0.2);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        /* transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+          backdrop-filter 0.3s ease, box-shadow 0.3s ease,
+          border-color 0.3s ease, background-color 0.3s ease; */
         position: relative;
         overflow: hidden;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1),
@@ -916,7 +1019,7 @@
           rgba(255, 255, 255, 0.1),
           transparent
         );
-        transition: left 0.5s ease;
+        /* transition: left 0.5s ease; */
       }
 
       .tech-tag:hover::before {
@@ -925,7 +1028,7 @@
 
       .tech-tag:hover {
         background: rgba(100, 255, 218, 0.15);
-        transform: translateY(-3px) scale(1.05);
+        /* transform: translateY(-3px) scale(1.05); */
         border-color: rgba(100, 255, 218, 0.4);
         box-shadow: 0 8px 20px rgba(100, 255, 218, 0.2),
           0 4px 10px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
@@ -935,13 +1038,17 @@
         display: flex;
         gap: var(--spacing-sm);
         flex-wrap: wrap;
+        position: relative;
+        z-index: 2;
       }
 
       .project-link {
         color: var(--primary-cyan);
         text-decoration: none;
         font-weight: 500;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+          backdrop-filter 0.3s ease, box-shadow 0.3s ease,
+          border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
         padding: 0.5rem 1rem;
         border-radius: 12px;
         border: 1px solid var(--glass-border);
@@ -1000,11 +1107,10 @@
         padding: var(--spacing-xl) 0;
         text-align: center;
         position: relative;
-        border-radius: 32px;
-        border: 1px solid var(--glass-border);
-        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2),
-          0 8px 20px rgba(100, 255, 218, 0.1),
-          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+        border: none;
       }
 
       .contact::before {
@@ -1024,7 +1130,7 @@
             rgba(167, 139, 250, 0.06) 0%,
             transparent 70%
           );
-        border-radius: 32px;
+        border-radius: 0;
         animation: contactGlow 12s ease-in-out infinite;
       }
 
@@ -1069,7 +1175,9 @@
         padding: var(--spacing-sm) var(--spacing-md);
         border: 1px solid var(--glass-border-light);
         border-radius: 16px;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+          backdrop-filter 0.3s ease, box-shadow 0.4s ease,
+          border-color 0.3s ease, background-color 0.3s ease;
         font-size: clamp(0.9rem, 2vw, 1rem);
         background: rgba(100, 255, 218, 0.05);
         backdrop-filter: blur(15px) saturate(180%);
@@ -1120,8 +1228,11 @@
         text-align: center;
         padding: 2rem 0;
         border-top: 1px solid var(--glass-border);
-        margin-top: var(--spacing-lg);
-        border-radius: 24px 24px 0 0;
+        /* margin-top: var(--spacing-lg); */
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        border-radius: 0;
         box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.2),
           inset 0 1px 0 rgba(255, 255, 255, 0.1);
       }
@@ -1133,22 +1244,22 @@
 
       /* Large Screen Optimization */
       @media (min-width: 1400px) {
-        .section {
+        /* .section {
           max-width: 1300px;
-        }
+        } */
 
         .hero-content {
           max-width: 1000px;
         }
 
         .contact {
-          max-width: 1300px;
+          /* max-width: 1300px; */
           margin-left: auto;
           margin-right: auto;
         }
 
         footer {
-          max-width: 1300px;
+          /* max-width: 1300px; */
           margin-left: auto;
           margin-right: auto;
         }
@@ -1162,7 +1273,6 @@
         }
 
         .section {
-          margin: 0 2rem 2rem;
           padding: 2.5rem;
         }
 
@@ -1176,12 +1286,7 @@
         }
 
         .contact {
-          margin: 0 2rem 2rem;
           padding: 2.5rem;
-        }
-
-        .footer {
-          margin: 0 2rem;
         }
       }
 
@@ -1221,12 +1326,12 @@
 
         /* Hero section adjustments */
         .hero {
-          padding: 8rem 1rem 4rem;
-          min-height: 90vh;
+          padding: 6rem 1rem 2rem;
+          min-height: 60vh;
         }
 
         .hero-content {
-          padding: 2rem 1.5rem;
+          padding: 1.5rem 1rem;
           margin: 0 1rem;
           border-radius: 20px;
         }
@@ -1253,14 +1358,12 @@
 
         /* Section improvements */
         .section {
-          margin: 0 1rem 2rem;
           padding: 2rem 1.5rem;
-          border-radius: 24px;
         }
 
         .section-title {
           font-size: clamp(1.8rem, 6vw, 2.5rem);
-          margin-bottom: 2rem;
+          margin-bottom: var(--spacing-lg);
         }
 
         /* About section */
@@ -1273,6 +1376,7 @@
         .about-text {
           font-size: clamp(0.95rem, 3vw, 1.1rem);
           order: 2;
+          text-align: left;
         }
 
         .about-image {
@@ -1344,9 +1448,7 @@
 
         /* Contact section */
         .contact {
-          margin: 0 1rem 2rem;
           padding: 2.5rem 1.5rem;
-          border-radius: 24px;
         }
 
         .contact .section {
@@ -1385,9 +1487,7 @@
 
         /* Footer */
         footer {
-          margin: 0 1rem;
           padding: 1.5rem;
-          border-radius: 20px 20px 0 0;
         }
 
         footer p {
@@ -1418,11 +1518,12 @@
 
         /* Hero section for small screens */
         .hero {
-          padding: 6rem 0.5rem 3rem;
+          padding: 5rem 0.5rem 2rem;
+          min-height: 50vh;
         }
 
         .hero-content {
-          padding: 1.5rem 1rem;
+          padding: 1rem 0.75rem;
           margin: 0 0.5rem;
           border-radius: 16px;
         }
@@ -1450,14 +1551,12 @@
 
         /* Sections for small screens */
         .section {
-          margin: 0 0.5rem 1.5rem;
           padding: 1.5rem 1rem;
-          border-radius: 20px;
         }
 
         .section-title {
           font-size: clamp(1.6rem, 7vw, 2.2rem);
-          margin-bottom: 1.5rem;
+          margin-bottom: var(--spacing-lg);
         }
 
         /* About section small screens */
@@ -1531,9 +1630,7 @@
 
         /* Contact section small screens */
         .contact {
-          margin: 0 0.5rem 1.5rem;
           padding: 2rem 1rem;
-          border-radius: 20px;
         }
 
         .contact p {
@@ -1555,9 +1652,7 @@
 
         /* Footer small screens */
         footer {
-          margin: 0 0.5rem;
           padding: 1.25rem;
-          border-radius: 16px 16px 0 0;
         }
 
         footer p {
@@ -1587,20 +1682,19 @@
   </head>
   <body>
     <!-- Navigation -->
-    <nav>
+    <!-- <nav>
       <div class="nav-container">
-        <a href="#" class="logo">SM</a>
         <ul class="nav-links">
           <li><a href="#about">About</a></li>
           <li><a href="#projects">Projects</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </div>
-    </nav>
+    </nav> -->
 
     <!-- Hero Section -->
     <section class="hero">
-      <div class="hero-content">
+      <div id="glass3d" class="hero-content">
         <h1>Suraj Mishra</h1>
         <p class="subtitle">Full-Stack Developer & Problem Solver</p>
         <p class="description">
@@ -1608,14 +1702,14 @@
           Passionate about building scalable applications that make a
           difference.
         </p>
-        <a href="#contact" class="cta-button">Get In Touch</a>
+        <a href="#contact" id="glass3d" class="cta-button">Get In Touch</a>
       </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="section">
+    <section class="section">
       <h2 class="section-title">About Me</h2>
-      <div class="about-content">
+      <div id="glass3d" class="about-content">
         <div class="about-text">
           <p>
             Hello! I'm Suraj, a passionate full-stack developer with a love for
@@ -1630,22 +1724,22 @@
             sharing knowledge with the developer community.
           </p>
           <div class="skills">
-            <div class="skill-item">JavaScript</div>
-            <div class="skill-item">React</div>
-            <div class="skill-item">Node.js</div>
-            <div class="skill-item">Python</div>
-            <div class="skill-item">MongoDB</div>
-            <div class="skill-item">PostgreSQL</div>
+            <div id="glass3d" class="skill-item">JavaScript</div>
+            <div id="glass3d" class="skill-item">React</div>
+            <div id="glass3d" class="skill-item">Node.js</div>
+            <div id="glass3d" class="skill-item">Python</div>
+            <div id="glass3d" class="skill-item">MongoDB</div>
+            <div id="glass3d" class="skill-item">PostgreSQL</div>
           </div>
         </div>
         <div class="about-image">
-          <div class="profile-placeholder">SM</div>
+          <div class="profile-placeholder"></div>
         </div>
       </div>
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="section">
+    <!-- <section id="projects" class="section">
       <h2 class="section-title">Featured Projects</h2>
       <div class="projects-grid">
         <div class="project-card">
@@ -1703,11 +1797,11 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <!-- Contact Section -->
     <section id="contact" class="contact">
-      <div class="section">
+      <div id="glass3d" class="section-content">
         <h2 class="section-title">Let's Work Together</h2>
         <div class="contact-content">
           <p>
@@ -1754,126 +1848,6 @@
         }
       });
 
-      // Vertical-Only Parallax Effects
-      let ticking = false;
-
-      function updateParallax() {
-        const scrolled = window.pageYOffset;
-
-        // Skip hero section - no parallax effects
-
-        // Sections vertical parallax with different speeds
-        const sections = document.querySelectorAll(".section");
-        sections.forEach((section, index) => {
-          const rect = section.getBoundingClientRect();
-          const sectionTop = section.offsetTop;
-
-          // Only apply parallax when section is in viewport and past hero
-          if (
-            rect.top < window.innerHeight &&
-            rect.bottom > 0 &&
-            scrolled > window.innerHeight * 0.8
-          ) {
-            const sectionRate = (scrolled - sectionTop) * 0.05;
-            const speed = 0.02 + index * 0.01; // Different speeds for each section
-            section.style.transform = `translate3d(0, ${
-              sectionRate * speed
-            }px, 0)`;
-          }
-        });
-
-        // Project cards individual vertical parallax
-        const projectCards = document.querySelectorAll(".project-card");
-        projectCards.forEach((card, index) => {
-          const rect = card.getBoundingClientRect();
-
-          if (
-            rect.top < window.innerHeight &&
-            rect.bottom > 0 &&
-            scrolled > window.innerHeight * 0.8
-          ) {
-            const cardRate = (window.innerHeight - rect.top) * 0.02;
-            const stagger = index * 0.005; // Reduced stagger effect
-            card.style.transform = `translate3d(0, ${
-              cardRate * (0.3 + stagger)
-            }px, 0)`;
-          }
-        });
-
-        // Profile image vertical parallax
-        const profile = document.querySelector(".profile-placeholder");
-        if (profile) {
-          const rect = profile.getBoundingClientRect();
-          if (
-            rect.top < window.innerHeight &&
-            rect.bottom > 0 &&
-            scrolled > window.innerHeight * 0.8
-          ) {
-            const profileRate = (window.innerHeight - rect.top) * 0.03;
-            profile.style.transform = `translate3d(0, ${profileRate}px, 0)`;
-          }
-        }
-
-        // Skills vertical parallax
-        const skills = document.querySelectorAll(".skill-item");
-        skills.forEach((skill, index) => {
-          const rect = skill.getBoundingClientRect();
-
-          if (
-            rect.top < window.innerHeight &&
-            rect.bottom > 0 &&
-            scrolled > window.innerHeight * 0.8
-          ) {
-            const skillRate = (window.innerHeight - rect.top) * 0.015;
-            const delay = index * 0.05;
-            skill.style.transform = `translate3d(0, ${
-              skillRate * (1 + delay)
-            }px, 0)`;
-          }
-        });
-
-        // Contact section vertical parallax
-        const contact = document.querySelector(".contact");
-        if (contact) {
-          const rect = contact.getBoundingClientRect();
-          if (
-            rect.top < window.innerHeight &&
-            rect.bottom > 0 &&
-            scrolled > window.innerHeight * 0.8
-          ) {
-            const contactRate = (window.innerHeight - rect.top) * 0.02;
-            contact.style.transform = `translate3d(0, ${contactRate}px, 0)`;
-          }
-        }
-
-        // Section titles vertical parallax
-        const sectionTitles = document.querySelectorAll(".section-title");
-        sectionTitles.forEach((title) => {
-          const rect = title.getBoundingClientRect();
-
-          if (
-            rect.top < window.innerHeight &&
-            rect.bottom > 0 &&
-            scrolled > window.innerHeight * 0.8
-          ) {
-            const titleRate = (window.innerHeight - rect.top) * 0.025;
-            title.style.transform = `translate3d(0, ${titleRate}px, 0)`;
-          }
-        });
-
-        ticking = false;
-      }
-
-      function requestTick() {
-        if (!ticking) {
-          requestAnimationFrame(updateParallax);
-          ticking = true;
-        }
-      }
-
-      // Optimized scroll listener
-      window.addEventListener("scroll", requestTick, { passive: true });
-
       // Intersection Observer for animation triggers
       const observerOptions = {
         threshold: [0.1, 0.3, 0.5, 0.7],
@@ -1884,24 +1858,19 @@
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.style.animationPlayState = "running";
-
-            // Add entrance effect only for non-hero elements
-            const entryRatio = entry.intersectionRatio;
-            const opacity = entryRatio;
-
-            entry.target.style.opacity = opacity;
+            entry.target.style.opacity = 1;
           }
         });
       }, observerOptions);
 
-      // Observe all animated elements except hero content
+      // Observe all animated elements
       document
         .querySelectorAll(".project-card, .skill-item, .section-title")
         .forEach((el) => {
           observer.observe(el);
         });
 
-      // Simple hover effects without 3D transforms
+      // Simple hover effects
       document
         .querySelectorAll(".project-card, .cta-button, .contact-link")
         .forEach((element) => {
@@ -1916,9 +1885,6 @@
             );
           });
         });
-
-      // Initialize parallax on page load
-      window.addEventListener("load", updateParallax);
     </script>
   </body>
 </html>
