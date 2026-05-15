@@ -1,0 +1,4 @@
+[1m[31merror:[39m[0m Formatting issues found
+index.html (288ms)
+
+Found formatting issues in 1 file (518ms, 16 threads). Run `vp check --fix` to fix them.

@@ -1,0 +1,11 @@
+vite v8.0.10 building client environment for production...
+[2Ktransforming...✓ 3 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/assets/Syntha Nova-DLCiJSW-.ttf      41.84 kB
+dist/assets/Axeon-DL1W302M.ttf            45.40 kB
+dist/assets/Profile photo-3L5CouXb.jpeg   58.28 kB
+dist/index.html                           61.79 kB │ gzip: 11.33 kB
+dist/assets/Roadrage-owgBd-Cow_GjBa.otf  341.76 kB
+
+✓ built in 89ms
