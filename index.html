@@ -30,9 +30,6 @@
         href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap"
         rel="stylesheet"
     /></noscript>
-    <script>
-      document.documentElement.classList.add("js");
-    </script>
     <style>
       @font-face {
         font-family: "Kimberley Bl";
@@ -247,6 +244,7 @@
         opacity: 1;
         visibility: visible;
         padding: 0.85rem var(--gutter);
+        border-bottom: 1px solid transparent;
         transition:
           background 240ms ease,
           border-color 240ms ease,
@@ -280,7 +278,7 @@
 
       .site-nav.is-scrolled {
         background: rgba(3, 1, 4, 0.92);
-        border-bottom: 1px solid rgba(255, 184, 77, 0.16);
+        border-bottom-color: rgba(255, 184, 77, 0.16);
       }
 
       .nav-container {
@@ -663,6 +661,7 @@
       .section {
         position: relative;
         padding: var(--section-padding) var(--gutter);
+        scroll-margin-top: var(--nav-height);
       }
 
       .section-inner {
@@ -753,7 +752,9 @@
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 0.8rem;
-        margin-top: 1.75rem;
+        margin: 1.75rem 0 0;
+        padding: 0;
+        list-style: none;
       }
 
       .skill-item {
@@ -948,7 +949,7 @@
         color: var(--neon-green);
       }
 
-      .js .reveal {
+      .reveal.is-pending {
         opacity: 0;
         transform: translateY(26px);
         transition:
@@ -956,7 +957,8 @@
           transform 620ms ease;
       }
 
-      .js .reveal.is-visible {
+      .reveal.is-visible,
+      .reveal:focus-within {
         opacity: 1;
         transform: translateY(0);
       }
@@ -1113,7 +1115,7 @@
       </div>
     </nav>
 
-    <main id="main">
+    <main id="main" tabindex="-1">
       <section id="home" class="hero" aria-labelledby="hero-title">
         <div class="hero-art" aria-hidden="true">
           <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
@@ -1269,32 +1271,32 @@
                 open-source repos, and sharing what I learn with fellow night-owl developers.
               </p>
 
-              <div class="skills" aria-label="Technology stack">
-                <div class="skill-item">
+              <ul class="skills" aria-label="Technology stack">
+                <li class="skill-item">
                   <span class="skill-bulb" aria-hidden="true"></span>
                   JavaScript
-                </div>
-                <div class="skill-item">
+                </li>
+                <li class="skill-item">
                   <span class="skill-bulb" aria-hidden="true"></span>
                   React
-                </div>
-                <div class="skill-item">
+                </li>
+                <li class="skill-item">
                   <span class="skill-bulb" aria-hidden="true"></span>
                   Node.js
-                </div>
-                <div class="skill-item">
+                </li>
+                <li class="skill-item">
                   <span class="skill-bulb" aria-hidden="true"></span>
                   Python
-                </div>
-                <div class="skill-item">
+                </li>
+                <li class="skill-item">
                   <span class="skill-bulb" aria-hidden="true"></span>
                   MongoDB
-                </div>
-                <div class="skill-item">
+                </li>
+                <li class="skill-item">
                   <span class="skill-bulb" aria-hidden="true"></span>
                   PostgreSQL
-                </div>
-              </div>
+                </li>
+              </ul>
             </div>
 
             <div class="about-image">
@@ -1392,119 +1394,6 @@
       </p>
     </footer>
 
-    <script>
-      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const root = document.documentElement;
-
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", function (event) {
-          const targetSelector = this.getAttribute("href");
-          if (!targetSelector || targetSelector === "#") return;
-
-          const target = document.querySelector(targetSelector);
-          if (!target) return;
-
-          event.preventDefault();
-          target.scrollIntoView({
-            behavior: prefersReducedMotion ? "auto" : "smooth",
-            block: "start",
-          });
-        });
-      });
-
-      const nav = document.querySelector(".site-nav");
-      const heroSection = document.querySelector("#home");
-      const setNavState = (isOnHero) => {
-        if (!nav) return;
-
-        nav.classList.toggle("is-hidden-on-hero", isOnHero);
-        nav.classList.toggle("is-scrolled", !isOnHero);
-      };
-
-      if (nav && heroSection && "IntersectionObserver" in window) {
-        const navObserver = new IntersectionObserver(
-          ([entry]) => {
-            setNavState(entry.isIntersecting);
-          },
-          { threshold: 0 },
-        );
-
-        navObserver.observe(heroSection);
-      } else {
-        let heroExit = heroSection ? heroSection.offsetTop + heroSection.offsetHeight : 72;
-        let navTicking = false;
-        const updateHeroExit = () => {
-          heroExit = heroSection ? heroSection.offsetTop + heroSection.offsetHeight : 72;
-        };
-        const updateNavState = () => {
-          navTicking = false;
-          setNavState(window.scrollY < heroExit);
-        };
-        const requestNavUpdate = () => {
-          if (navTicking) return;
-          navTicking = true;
-          requestAnimationFrame(updateNavState);
-        };
-
-        updateHeroExit();
-        requestNavUpdate();
-        window.addEventListener("scroll", requestNavUpdate, { passive: true });
-        window.addEventListener("resize", () => {
-          updateHeroExit();
-          requestNavUpdate();
-        });
-        window.addEventListener(
-          "load",
-          () => {
-            updateHeroExit();
-            requestNavUpdate();
-          },
-          { once: true },
-        );
-      }
-
-      let scrollingTimer;
-      let scrollingTicking = false;
-      const markScrolling = () => {
-        if (!scrollingTicking) {
-          scrollingTicking = true;
-          requestAnimationFrame(() => {
-            root.classList.add("is-scrolling");
-            scrollingTicking = false;
-          });
-        }
-
-        clearTimeout(scrollingTimer);
-        scrollingTimer = window.setTimeout(() => {
-          root.classList.remove("is-scrolling");
-        }, 140);
-      };
-
-      if (!prefersReducedMotion) {
-        window.addEventListener("scroll", markScrolling, { passive: true });
-      }
-
-      const revealElements = document.querySelectorAll(".reveal");
-
-      if (prefersReducedMotion || !("IntersectionObserver" in window)) {
-        revealElements.forEach((element) => element.classList.add("is-visible"));
-      } else {
-        const revealObserver = new IntersectionObserver(
-          (entries, observer) => {
-            entries.forEach((entry) => {
-              if (!entry.isIntersecting) return;
-              entry.target.classList.add("is-visible");
-              observer.unobserve(entry.target);
-            });
-          },
-          {
-            threshold: 0.16,
-            rootMargin: "0px 0px -80px 0px",
-          },
-        );
-
-        revealElements.forEach((element) => revealObserver.observe(element));
-      }
-    </script>
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>

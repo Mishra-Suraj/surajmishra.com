@@ -1,17 +1,24 @@
 {
+  "name": "surajmishra-com",
+  "private": true,
   "type": "module",
   "scripts": {
+    "dev": "vp dev",
+    "build": "vp build",
+    "preview": "vp preview",
+    "check": "vp check",
+    "check:fix": "vp check --fix",
+    "test": "node --test --test-isolation=none",
     "prepare": "vp config"
   },
   "devDependencies": {
     "sharp": "^0.35.5",
+    "vite": "catalog:",
     "vite-plugin-image-optimizer": "^2.0.3",
     "vite-plus": "catalog:"
   },
-  "packageManager": "pnpm@11.1.2+sha512.415a1cc25974731e75455c1468371be74c5aa5fb7621b50d4056d222451609f11412f23fd602e6169f1e060466641f798597e1be961a10688836a67b16569499",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "sharp"
-    ]
-  }
+  "engines": {
+    "node": "^22.18.0 || ^24.11.0 || >=26.0.0"
+  },
+  "packageManager": "pnpm@12.11.2"
 }

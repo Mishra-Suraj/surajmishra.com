@@ -7,9 +7,5 @@ export default defineConfig({
   },
   fmt: {},
   lint: { options: { typeAware: true, typeCheck: true } },
-  plugins: [
-    ViteImageOptimizer({
-      /* pass your config */
-    }),
-  ],
+  plugins: [ViteImageOptimizer({ test: /\.(jpe?g|png|gif|tiff|webp|avif)$/i })],
 });
