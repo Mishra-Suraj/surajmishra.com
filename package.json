@@ -4,7 +4,7 @@
     "prepare": "vp config"
   },
   "devDependencies": {
-    "sharp": "^0.34.5",
+    "sharp": "^0.35.5",
     "vite-plugin-image-optimizer": "^2.0.3",
     "vite-plus": "catalog:"
   },
