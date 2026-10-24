@@ -3,12 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      document.documentElement.classList.add("js");
+      window.__revealFallback = window.setTimeout(function () {
+        document.documentElement.classList.remove("js");
+      }, 2500);
+    </script>
     <meta
       name="description"
       content="Suraj Mishra — full-stack developer, code exorcist, and wrangler of neon 80s web magic."
     />
     <title>Suraj Mishra | Full-Stack Code Exorcist</title>
-    <link rel="icon" href="favicon.png" type="image/png" />
+    <link rel="icon" href="favicon.png" type="image/png" sizes="256x256" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180" />
+    <meta name="theme-color" content="#030104" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Suraj Mishra | Full-Stack Code Exorcist" />
+    <meta
+      property="og:description"
+      content="Suraj Mishra — full-stack developer, code exorcist, and wrangler of neon 80s web magic."
+    />
+    <meta property="og:site_name" content="Suraj Mishra" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Suraj Mishra | Full-Stack Code Exorcist" />
+    <meta
+      name="twitter:description"
+      content="Suraj Mishra — full-stack developer, code exorcist, and wrangler of neon 80s web magic."
+    />
     <link
       rel="preload"
       href="suraj-mishra-wordmark.webp"
@@ -25,11 +46,12 @@
       crossorigin
     />
 
-    <noscript
-      ><link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    /></noscript>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap"
+    />
     <style>
       @font-face {
         font-family: "Kimberley Bl";
@@ -50,14 +72,7 @@
       :root {
         color-scheme: dark;
         --void: #030104;
-        --void-blue: #07030a;
-        --deep-purple: #170308;
-        --panel: rgba(22, 5, 7, 0.86);
-        --panel-strong: rgba(8, 2, 4, 0.95);
-        --panel-line: rgba(255, 47, 35, 0.42);
-        --panel-line-hot: rgba(255, 182, 91, 0.5);
         --neon-cyan: #ff3326;
-        --neon-magenta: #b90b16;
         --neon-red: #ff1818;
         --neon-green: #ffd166;
         --warning: #ffb84d;
@@ -71,9 +86,9 @@
         --nav-height: 4.75rem;
         --section-padding: clamp(5rem, 10vw, 8rem);
         --gutter: clamp(1rem, 4vw, 2.5rem);
-        --font-display: "BenguiatStd Bold", "Cormorant SC", "Axeon", Georgia, serif;
+        --font-display: "BenguiatStd Bold", "Cormorant SC", Georgia, serif;
         --font-ui: "Rajdhani", "Eurostile", "Bank Gothic", system-ui, sans-serif;
-        --font-subtitle: "Kimberley Bl", "Syntha Nova", var(--font-ui);
+        --font-subtitle: "Kimberley Bl", var(--font-ui);
         --font-section-title: "BenguiatStd Bold", var(--font-display);
       }
 
@@ -300,21 +315,6 @@
           inset 0 1px 0 rgba(255, 255, 255, 0.06);
       }
 
-      .nav-container::before,
-      .nav-container::after {
-        content: "";
-        position: absolute;
-        pointer-events: none;
-      }
-
-      .nav-container::before {
-        display: none;
-      }
-
-      .nav-container::after {
-        display: none;
-      }
-
       .brand {
         position: relative;
         z-index: 1;
@@ -331,10 +331,6 @@
         text-shadow:
           0 0 10px rgba(255, 184, 77, 0.74),
           0 0 18px rgba(255, 38, 27, 0.58);
-      }
-
-      .brand::after {
-        display: none;
       }
 
       .nav-links {
@@ -364,14 +360,6 @@
           transform 180ms ease,
           color 180ms ease,
           text-shadow 180ms ease;
-      }
-
-      .nav-links a::before {
-        display: none;
-      }
-
-      .nav-links a::after {
-        display: none;
       }
 
       .nav-links a:hover,
@@ -474,7 +462,6 @@
       .hero-art svg {
         width: 100%;
         height: 100%;
-        object-fit: cover;
       }
 
       .hero-content {
@@ -565,7 +552,6 @@
           drop-shadow(0 0 22px rgba(255, 48, 34, 0.78))
           drop-shadow(0 0 42px rgba(255, 24, 24, 0.42));
         transform: translateZ(0);
-        will-change: transform;
       }
 
       .subtitle {
@@ -626,11 +612,6 @@
           background 180ms ease;
       }
 
-      .cta-button::before,
-      .contact-link::before {
-        display: none;
-      }
-
       .cta-button:hover,
       .cta-button:focus-visible,
       .contact-link:hover,
@@ -641,13 +622,6 @@
         box-shadow:
           0 0 26px rgba(255, 184, 77, 0.24),
           inset 0 0 22px rgba(255, 38, 27, 0.1);
-      }
-
-      .cta-button:hover::before,
-      .cta-button:focus-visible::before,
-      .contact-link:hover::before,
-      .contact-link:focus-visible::before {
-        display: none;
       }
 
       .button-icon,
@@ -776,10 +750,6 @@
           color 180ms ease;
       }
 
-      .skill-item::after {
-        display: none;
-      }
-
       .skill-item:hover {
         color: var(--warning);
         border-color: rgba(255, 184, 77, 0.58);
@@ -787,10 +757,6 @@
         box-shadow:
           var(--shadow-red),
           0 0 18px rgba(255, 184, 77, 0.18);
-      }
-
-      .skill-item:hover::after {
-        display: none;
       }
 
       .skill-bulb {
@@ -831,14 +797,6 @@
         transform: rotate(-1.4deg);
       }
 
-      .portrait-frame::before {
-        display: none;
-      }
-
-      .portrait-frame::after {
-        display: none;
-      }
-
       .profile-placeholder {
         position: relative;
         width: 100%;
@@ -869,10 +827,6 @@
           ),
           linear-gradient(135deg, rgba(255, 184, 77, 0.08), rgba(255, 38, 27, 0.14));
         mix-blend-mode: screen;
-      }
-
-      .profile-placeholder::after {
-        display: none;
       }
 
       .contact {
@@ -949,7 +903,7 @@
         color: var(--neon-green);
       }
 
-      .reveal.is-pending {
+      .js .reveal {
         opacity: 0;
         transform: translateY(26px);
         transition:
@@ -957,8 +911,8 @@
           transform 620ms ease;
       }
 
-      .reveal.is-visible,
-      .reveal:focus-within {
+      .js .reveal.is-visible,
+      .js .reveal:focus-within {
         opacity: 1;
         transform: translateY(0);
       }
@@ -1210,7 +1164,7 @@
             <picture>
               <source srcset="suraj-mishra-wordmark.webp" type="image/webp" />
               <img
-                src="Gemini_Generated_Image_14eu2i14eu2i14eu (Edited).png"
+                src="suraj-mishra-wordmark.png"
                 alt="Suraj Mishra"
                 width="1398"
                 height="683"
@@ -1303,7 +1257,7 @@
               <div class="portrait-frame">
                 <div class="profile-placeholder" role="img" aria-label="Portrait of Suraj Mishra">
                   <img
-                    src="Profile photo.jpeg"
+                    src="profile-photo.jpeg"
                     alt=""
                     width="563"
                     height="563"
@@ -1353,7 +1307,7 @@
                   Send a Signal
                 </a>
                 <a
-                  href="https://www.linkedin.com/in/suraj-mishra-advance-flux"
+                  href="https://www.linkedin.com/in/suraj-mishra26"
                   class="contact-link"
                   target="_blank"
                   rel="noopener noreferrer"

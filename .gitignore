@@ -1,3 +1,5 @@
 dist/
 node_modules/
 .dirac-symbol-index/
+vp_build_output.txt
+vp_check_output.txt

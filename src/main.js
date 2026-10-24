@@ -1,4 +1,6 @@
-const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const prefersReducedMotion =
+  typeof window.matchMedia === "function" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const root = document.documentElement;
 
 const nav = document.querySelector(".site-nav");
@@ -111,10 +113,8 @@ if (prefersReducedMotion || !("IntersectionObserver" in window)) {
     },
   );
 
-  revealElements.forEach((element) => {
-    element.classList.add("is-pending");
-    revealObserver.observe(element);
-  });
+  revealElements.forEach((element) => revealObserver.observe(element));
 }
 
-root.classList.add("js");
+// Cancel the inline fallback that reveals content if this module never runs.
+clearTimeout(window.__revealFallback);
