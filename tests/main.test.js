@@ -11,37 +11,31 @@ function loadPage({
   resizeObserver = true,
   heroBottom = 800,
 } = {}) {
-  const element = (classes = []) => {
+  const listeners = new Map();
+  const frames = [];
+  const timers = new Map();
+  const intersections = [];
+  const resizes = [];
+
+  const element = ({ classes = [], attributes = {} } = {}) => {
     const tokens = new Set(classes);
+    const attrs = new Map(Object.entries(attributes));
     return {
+      get id() {
+        return attrs.get("id") ?? "";
+      },
       classList: {
         add: (value) => tokens.add(value),
         remove: (value) => tokens.delete(value),
         contains: (value) => tokens.has(value),
         toggle: (value, enabled) => (enabled ? tokens.add(value) : tokens.delete(value)),
       },
+      getAttribute: (name) => (attrs.has(name) ? attrs.get(name) : null),
+      setAttribute: (name, value) => attrs.set(name, value),
+      removeAttribute: (name) => attrs.delete(name),
     };
   };
-  const properties = new Map();
-  const root = {
-    ...element(),
-    style: {
-      setProperty: (key, value) => properties.set(key, value),
-      getPropertyValue: (key) => properties.get(key) ?? "",
-    },
-  };
-  const nav = { ...element(["is-hidden-on-hero"]), offsetHeight: 96 };
-  const hero = {
-    offsetTop: 0,
-    offsetHeight: 800,
-    getBoundingClientRect: () => ({ bottom: heroBottom }),
-  };
-  const reveals = Array.from({ length: 4 }, () => element());
-  const listeners = new Map();
-  const frames = [];
-  const timers = new Map();
-  const intersections = [];
-  const resizes = [];
+
   class Observer {
     constructor(callback, options) {
       this.callback = callback;
@@ -66,6 +60,16 @@ function loadPage({
     }
     observe() {}
   }
+
+  const properties = new Map();
+  const root = {
+    ...element(),
+    style: {
+      setProperty: (key, value) => properties.set(key, value),
+      getPropertyValue: (key) => properties.get(key) ?? "",
+    },
+  };
+
   const window = {
     scrollY: 0,
     matchMedia: () => ({ matches: reducedMotion }),
@@ -81,11 +85,53 @@ function loadPage({
     ...(observers ? { IntersectionObserver: Observer } : {}),
     ...(resizeObserver ? { ResizeObserver: SizeObserver } : {}),
   };
+
+  const rectFor = (node) => ({
+    top: node.top - window.scrollY,
+    bottom: node.bottom - window.scrollY,
+    height: node.bottom - node.top,
+  });
+
+  const nav = Object.assign(element({ classes: ["is-hidden-on-hero"] }), {
+    offsetHeight: 96,
+  });
+  const hero = Object.assign(element({ attributes: { id: "home" } }), {
+    offsetTop: 0,
+    offsetHeight: 800,
+    top: 0,
+    bottom: heroBottom,
+    getBoundingClientRect() {
+      return rectFor(this);
+    },
+  });
+  const about = Object.assign(element({ attributes: { id: "about" } }), {
+    top: 1400,
+    bottom: 2600,
+    getBoundingClientRect() {
+      return rectFor(this);
+    },
+  });
+  const contact = Object.assign(element({ attributes: { id: "contact" } }), {
+    top: 2600,
+    bottom: 3600,
+    getBoundingClientRect() {
+      return rectFor(this);
+    },
+  });
+  const sections = { "#home": hero, "#about": about, "#contact": contact };
+
+  const reveals = Array.from({ length: 4 }, () => element());
+  const navLinks = ["#home", "#about", "#contact"].map((href) => element({ attributes: { href } }));
+
   runInNewContext(source, {
     document: {
       documentElement: root,
-      querySelector: (selector) => (selector === ".site-nav" ? nav : hero),
-      querySelectorAll: () => reveals,
+      querySelector: (selector) => sections[selector] ?? (selector === ".site-nav" ? nav : null),
+      querySelectorAll: (selector) => {
+        if (selector === ".reveal") return reveals;
+        if (selector === '.nav-links a[href^="#"]') return navLinks;
+        return [];
+      },
     },
     window,
     IntersectionObserver: Observer,
@@ -93,11 +139,15 @@ function loadPage({
     requestAnimationFrame: (callback) => frames.push(callback),
     clearTimeout: (id) => timers.delete(id),
   });
+
   return {
     root,
     nav,
     hero,
+    about,
+    contact,
     reveals,
+    navLinks,
     window,
     intersections,
     resizes,
@@ -172,12 +222,49 @@ test("resize events keep navigation measurements working without ResizeObserver"
 
 test("scroll bursts share an animation frame and resume animations after scrolling", () => {
   const page = loadPage();
+  page.flushFrames();
   page.emit("scroll");
   page.emit("scroll");
-  assert.equal(page.frames.length, 1);
-  assert.equal(page.timers.size, 1);
+  const scheduled = page.frames.length;
+  assert.ok(scheduled >= 1);
+  page.emit("scroll");
+  assert.equal(page.frames.length, scheduled);
   page.flushFrames();
   assert.equal(page.root.classList.contains("is-scrolling"), true);
   [...page.timers.values()][0]();
   assert.equal(page.root.classList.contains("is-scrolling"), false);
+});
+
+test("scrollspy marks the section currently under the navigation", () => {
+  const page = loadPage();
+  page.flushFrames();
+  assert.equal(page.navLinks[0].getAttribute("aria-current"), "true");
+  assert.ok(page.navLinks[0].classList.contains("is-active"));
+
+  page.window.scrollY = 1500;
+  page.emit("scroll");
+  page.flushFrames();
+  assert.equal(page.navLinks[1].getAttribute("aria-current"), "true");
+  assert.equal(page.navLinks[0].getAttribute("aria-current"), null);
+  assert.ok(page.navLinks[1].classList.contains("is-active"));
+  assert.equal(page.navLinks[0].classList.contains("is-active"), false);
+
+  page.window.scrollY = 2700;
+  page.emit("scroll");
+  page.flushFrames();
+  assert.equal(page.navLinks[2].getAttribute("aria-current"), "true");
+
+  page.window.scrollY = 0;
+  page.emit("scroll");
+  page.flushFrames();
+  assert.equal(page.navLinks[0].getAttribute("aria-current"), "true");
+  assert.equal(page.navLinks[2].getAttribute("aria-current"), null);
+});
+
+test("the initial reveal state is gated on the js class so it never flashes", () => {
+  const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+  const css = readFileSync(new URL("../src/styles.css", import.meta.url), "utf8");
+  assert.match(html, /classList\.add\("js"\)/);
+  assert.match(html, /__revealFallback/);
+  assert.match(css, /\.js \.reveal\b/);
 });

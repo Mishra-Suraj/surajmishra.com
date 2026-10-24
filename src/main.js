@@ -116,5 +116,41 @@ if (prefersReducedMotion || !("IntersectionObserver" in window)) {
   revealElements.forEach((element) => revealObserver.observe(element));
 }
 
+const navLinks = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
+const spySections = navLinks
+  .map((link) => document.querySelector(link.getAttribute("href")))
+  .filter(Boolean);
+
+if (navLinks.length && spySections.length) {
+  const setActiveLink = (id) => {
+    navLinks.forEach((link) => {
+      const isActive = link.getAttribute("href") === `#${id}`;
+      link.classList.toggle("is-active", isActive);
+      if (isActive) link.setAttribute("aria-current", "true");
+      else link.removeAttribute("aria-current");
+    });
+  };
+
+  let spyTicking = false;
+  const updateActiveLink = () => {
+    spyTicking = false;
+    const line = (nav?.offsetHeight ?? 0) + 1;
+    let currentId = spySections[0].id;
+    for (const section of spySections) {
+      if (section.getBoundingClientRect().top <= line) currentId = section.id;
+    }
+    setActiveLink(currentId);
+  };
+  const requestSpyUpdate = () => {
+    if (spyTicking) return;
+    spyTicking = true;
+    requestAnimationFrame(updateActiveLink);
+  };
+
+  requestSpyUpdate();
+  window.addEventListener("scroll", requestSpyUpdate, { passive: true });
+  window.addEventListener("resize", requestSpyUpdate);
+}
+
 // Cancel the inline fallback that reveals content if this module never runs.
 clearTimeout(window.__revealFallback);
